@@ -185,7 +185,7 @@ public class BluetoothInputSettings extends FragmentActivity {
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (requestCode == BLUETOOTH_REQUEST_CODE && resultCode == RESULT_OK) {
-                startScanning();
+                askForPermissionOrScan(false);
             }
         }
 
