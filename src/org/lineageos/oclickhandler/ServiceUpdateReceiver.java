@@ -33,7 +33,7 @@ public class ServiceUpdateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
-        if ("foo".equals(action)) { //lineageos.content.Intent.ACTION_INITIALIZE_LINEAGE_HARDWARE.equals(action)) {
+        if (lineageos.content.Intent.ACTION_INITIALIZE_LINEAGE_HARDWARE.equals(action)) {
             updateOClickServiceState(context);
         } else if (intent.getAction().equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
             updateOClickServiceState(context);
