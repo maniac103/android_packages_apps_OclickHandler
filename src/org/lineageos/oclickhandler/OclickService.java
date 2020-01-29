@@ -152,6 +152,7 @@ public class OclickService extends Service implements
     private Ringtone mRingtone;
     private SharedPreferences mPrefs;
     private ConnectionState mConnectionState;
+    private int mPreviousAlarmVolume = -1;
 
     private static final int MSG_SINGLE_TAP_TIMEOUT = 1;
     private static final int MSG_POLL_RSSI = 2;
@@ -398,7 +399,7 @@ public class OclickService extends Service implements
     private void startPhoneLocator() {
         Log.d(TAG, "Executing ring alarm");
 
-        // FIXME: this needs to be reverted
+        mPreviousAlarmVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
         mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM,
                 mAudioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM), 0);
         mRingtone.play();
@@ -426,6 +427,10 @@ public class OclickService extends Service implements
         Log.d(TAG, "Stopping ring alarm");
         mRingtone.stop();
         notificationManager.cancel(0);
+        if (mPreviousAlarmVolume != -1) {
+            mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, mPreviousAlarmVolume, 0);
+            mPreviousAlarmVolume = -1;
+        }
     }
 
     private void injectKey(int keyCode) {
